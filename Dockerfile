@@ -9,6 +9,8 @@ RUN --mount=type=cache,target=/root/.cargo/git \
     --mount=type=cache,target=/volume/target \
     cargo install --path .
 
+RUN strip /root/.cargo/bin/forwarder
+
 FROM scratch
 
 COPY --from=builder /root/.cargo/bin/forwarder /app/
