@@ -26,6 +26,7 @@ async fn main() {
     }
 }
 
+#[allow(clippy::unused_async)]
 async fn forward(req: Request<Body>) -> Result<Response<Body>> {
     Response::builder()
         .status(StatusCode::FOUND)
