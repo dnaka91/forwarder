@@ -1,23 +1,29 @@
-# syntax = docker/dockerfile:experimental
-FROM clux/muslrust:stable as builder
+FROM rust:1.56 as builder
 
 WORKDIR /volume
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends musl-tools=1.2.2-1 && \
+    rustup target add x86_64-unknown-linux-musl
 
 COPY src/ src/
 COPY Cargo.lock Cargo.toml ./
 
-RUN --mount=type=cache,target=/root/.cargo/git \
-    --mount=type=cache,target=/root/.cargo/registry \
-    --mount=type=cache,target=/volume/target \
-    cargo install --path .
+RUN cargo build --release --target x86_64-unknown-linux-musl && \
+    strip --strip-all target/x86_64-unknown-linux-musl/release/forwarder
 
-RUN strip --strip-all /root/.cargo/bin/forwarder
+FROM alpine:3.14 as newuser
+
+RUN echo "forwarder:x:1000:" > /tmp/group && \
+    echo "forwarder:x:1000:1000::/dev/null:/sbin/nologin" > /tmp/passwd
 
 FROM scratch
 
-COPY --from=builder /root/.cargo/bin/forwarder /bin/
+COPY --from=builder /volume/target/x86_64-unknown-linux-musl/release/forwarder /bin/
+COPY --from=newuser /tmp/group /tmp/passwd /etc/
 
 EXPOSE 8080
 STOPSIGNAL SIGINT
+USER forwarder
 
 ENTRYPOINT ["/bin/forwarder"]
