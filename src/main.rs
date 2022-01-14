@@ -6,6 +6,7 @@
 use std::convert::Infallible;
 use std::net::SocketAddr;
 
+use hyper::http::uri::PathAndQuery;
 use hyper::http::{Result, Uri};
 use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Request, Response, Server, StatusCode};
@@ -35,7 +36,7 @@ async fn forward(req: Request<Body>) -> Result<Response<Body>> {
             Uri::builder()
                 .scheme("https")
                 .authority("home.dnaka91.rocks")
-                .path_and_query(req.uri().path_and_query().map_or("/", |pq| pq.as_str()))
+                .path_and_query(req.uri().path_and_query().map_or("/", PathAndQuery::as_str))
                 .build()
                 .map_or_else(
                     |_| String::from("https://home.dnaka91.rocks"),
