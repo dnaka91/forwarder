@@ -10,8 +10,9 @@ homepage = "https://github.com/dnaka91/forwarder"
 repository = "https://github.com/dnaka91/forwarder"
 
 [dependencies]
-hyper = { version = "0.14.16", features = ["http1", "http2", "server", "tcp"] }
-tokio = { version = "1.15.0", features = ["macros", "rt", "signal"] }
+hyper = { version = "0.14.18", features = ["http1", "http2", "server", "tcp"] }
+tokio = { version = "1.18.2", features = ["macros", "rt", "signal"] }
 
 [profile.release]
 lto = true
+strip = true

@@ -1,4 +1,4 @@
-FROM rust:1.58-alpine as builder
+FROM rust:1.61-alpine as builder
 
 WORKDIR /volume
 
@@ -7,10 +7,9 @@ RUN apk add --no-cache musl-dev=~1.2
 COPY src/ src/
 COPY Cargo.lock Cargo.toml ./
 
-RUN cargo build --release && \
-    strip --strip-all target/release/forwarder
+RUN cargo build --release
 
-FROM alpine:3.15 as newuser
+FROM alpine:3.16 as newuser
 
 RUN echo "forwarder:x:1000:" > /tmp/group && \
     echo "forwarder:x:1000:1000::/dev/null:/sbin/nologin" > /tmp/passwd
