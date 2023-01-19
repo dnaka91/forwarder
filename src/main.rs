@@ -23,7 +23,7 @@ async fn main() {
     let server = server.with_graceful_shutdown(shutdown_signal());
 
     if let Err(e) = server.await {
-        eprintln!("server error: {}", e);
+        eprintln!("server error: {e}");
     }
 }
 
