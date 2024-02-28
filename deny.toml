@@ -1,6 +1,15 @@
 [licenses]
-allow = []
-allow-osi-fsf-free = "both"
+version = 2
+allow = [
+	"Apache-2.0",
+	"MIT",
+]
 exceptions = [
-    { allow = ["AGPL-3.0"], name = "forwarder", version = "*" },
+    { allow = ["AGPL-3.0"], name = "forwarder" },
+    { allow = ["Unicode-DFS-2016"], name = "unicode-ident" },
+]
+
+[bans]
+skip-tree = [
+	{ name = "windows-sys", version = "0.48", depth = 3 },
 ]

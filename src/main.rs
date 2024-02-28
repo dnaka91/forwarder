@@ -3,13 +3,13 @@
 #![warn(clippy::nursery)]
 #![allow(clippy::used_underscore_binding)]
 
-use std::convert::Infallible;
-use std::net::SocketAddr;
+use std::{convert::Infallible, net::SocketAddr};
 
-use hyper::http::uri::PathAndQuery;
-use hyper::http::{Result, Uri};
-use hyper::service::{make_service_fn, service_fn};
-use hyper::{Body, Request, Response, Server, StatusCode};
+use hyper::{
+    http::{uri::PathAndQuery, Result, Uri},
+    service::{make_service_fn, service_fn},
+    Body, Request, Response, Server, StatusCode,
+};
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
