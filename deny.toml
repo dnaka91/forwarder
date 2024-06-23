@@ -1,8 +1,8 @@
 [licenses]
 version = 2
 allow = [
-	"Apache-2.0",
-	"MIT",
+    "Apache-2.0",
+    "MIT",
 ]
 exceptions = [
     { allow = ["AGPL-3.0"], name = "forwarder" },
@@ -11,5 +11,5 @@ exceptions = [
 
 [bans]
 skip-tree = [
-	{ name = "windows-sys", version = "0.48", depth = 3 },
+    "windows-sys@0.48",
 ]
